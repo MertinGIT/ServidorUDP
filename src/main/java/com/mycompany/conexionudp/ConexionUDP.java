@@ -8,21 +8,24 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ConexionUDP {
 
     public static void main(String[] args) throws IOException {
+        Hashtable<String, Integer> direcciones_ip = new Hashtable<>();
+        Hashtable<String, Integer> usuarios = new Hashtable<>();
         //numero de pueerto donde va a escuchar por mensajes.
         final int PUERTO = 5000;
         // buffer para guardar mensajes
         byte[] buffer = new byte[1024];
-         byte[] buffer2 = new byte[1024];
+        byte[] buffer2 = new byte[1024];
 
         try {
-             System.out.println("Iniciado el servidor UDP");
-             DatagramSocket socketUDP = new DatagramSocket(PUERTO);
+            System.out.println("Iniciado el servidor UDP");
+            DatagramSocket socketUDP = new DatagramSocket(PUERTO);
             while (true) {
                 buffer = new byte[1024];
                 buffer2 = new byte[1024];
@@ -55,4 +58,25 @@ public class ConexionUDP {
             Logger.getLogger(ConexionUDP.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-}
+
+    static class ClientHandler implements Runnable {
+
+        private final DatagramSocket socket;
+        private final InetAddress client_address;
+        private final int client_port;
+        private String user;
+        private volatile boolean running = true;
+
+        public ClientHandler (DatagramSocket socket, InetAddress direccion_cliente, int puerto_cliente){
+                this.socket = socket;
+                this.client_address = client_address;
+                this.client_port = client_port;
+                this.user = "";
+            }
+        @Override
+        public void run() {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        }
+    }
